@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#14100c">
+  <meta name="description" content="A cinematic, scroll-controlled artisan bakery experience with interactive product discoveries.">
+  <title>Flour & Fire — The Art of Baking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Italiana&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="nav" id="nav">
+    <a class="brand" href="#journey" aria-label="Flour and Fire, back to the beginning">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 30 30" fill="none"><path d="M15 26V4M15 8C8 7 6 3 6 3M15 13C22 11 24 6 24 6M15 19C8 18 5 13 5 13M15 23C22 21 25 17 25 17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+      <span>FLOUR <span class="amp">&</span> FIRE</span>
+    </a>
+    <nav class="desktop-links" aria-label="Main navigation">
+      <a href="#journey">The story</a>
+      <a href="#collection">Our collection</a>
+      <a href="#about">Our craft</a>
+    </nav>
+    <button class="bag-button" id="openBag" type="button" aria-label="Open basket">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l1 12H4L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+      <span class="bag-label">Basket</span>
+      <span class="bag-count" id="bagCount">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="journey" id="journey" aria-label="Scroll through our bakery story">
+      <div class="stage" id="stage">
+        <div class="scenes" aria-hidden="true">
+          <div class="scene scene-0 is-visible" data-scene="0">
+            <div class="scene-fallback fallback-grain"></div>
+            <div class="scene-photo" style="background-image:url('assets/scene-ingredients.webp')"></div>
+            <div class="scene-highlight"></div>
+          </div>
+          <div class="scene scene-1" data-scene="1">
+            <div class="scene-fallback fallback-dough"></div>
+            <div class="scene-photo" style="background-image:url('assets/scene-kneading.webp')"></div>
+            <div class="scene-highlight"></div>
+          </div>
+          <div class="scene scene-2" data-scene="2">
+            <div class="scene-fallback fallback-oven"></div>
+            <div class="oven-arch"></div>
+            <div class="scene-photo" style="background-image:url('assets/scene-oven.webp')"></div>
+            <div class="scene-highlight"></div>
+          </div>
+          <div class="scene scene-3" data-scene="3">
+            <div class="scene-fallback fallback-pastry"></div>
+            <div class="scene-photo" style="background-image:url('assets/scene-pastries.webp')"></div>
+            <div class="scene-highlight"></div>
+          </div>
+        </div>
+
+        <div class="atmosphere atmosphere-left" aria-hidden="true"></div>
+        <div class="atmosphere atmosphere-right" aria-hidden="true"></div>
+        <canvas id="particles" class="particles" aria-hidden="true"></canvas>
+        <div class="vignette" aria-hidden="true"></div>
+        <div class="cinema-rule top-rule" aria-hidden="true"></div>
+        <div class="cinema-rule bottom-rule" aria-hidden="true"></div>
+
+        <div class="chapter-counter" aria-hidden="true"><span id="chapterNumber">01</span><span class="slash">/</span><span>04</span></div>
+        <div class="scene-copy" data-copy="0">
+          <p class="eyebrow"><span class="eyebrow-line"></span> A little flour. A little fire.</p>
+          <h1>Made <em>slow.</em><br>Remembered <em>forever.</em></h1>
+          <p class="story-description">Follow the journey from the very first grain to the last golden crumb.</p>
+          <button class="text-link" id="startScroll" type="button">Explore the story <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="scene-copy" data-copy="1">
+          <p class="eyebrow"><span class="eyebrow-line"></span> Chapter one · The beginning</p>
+          <h2>Good things<br>take <em>time.</em></h2>
+          <p class="story-description">Just flour, water, a living starter — and the patience to let something wonderful happen.</p>
+        </div>
+        <div class="scene-copy" data-copy="2">
+          <p class="eyebrow"><span class="eyebrow-line"></span> Chapter two · The transformation</p>
+          <h2>Where<br><em>fire</em> works magic.</h2>
+          <p class="story-description">A rush of warmth. A whisper of steam. The moment dough becomes something worth sharing.</p>
+        </div>
+        <div class="scene-copy" data-copy="3">
+          <p class="eyebrow"><span class="eyebrow-line"></span> Chapter three · The reward</p>
+          <h2>Meet your new<br><em>favourites.</em></h2>
+          <p class="story-description">Every buttery fold, crackling crust and cinnamon swirl has its own story. Tap a glowing point to discover it.</p>
+          <button class="text-link" id="jumpCollection" type="button">See the full collection <span aria-hidden="true">↗</span></button>
+        </div>
+
+        <!-- Context and product pinpoints are interactive HTML, not baked into a video -->
+        <div class="hotspot-layer" id="hotspotLayer">
+          <button class="hotspot" data-info="fermentation" data-from=".30" data-to=".50" style="--x:65%;--y:53%" aria-label="Discover our long fermentation process"><span class="hotspot-ring"></span><span class="hotspot-center">+</span><span class="hotspot-tag">24-hour rise</span></button>
+          <button class="hotspot" data-info="oven" data-from=".55" data-to=".76" style="--x:69%;--y:56%" aria-label="Discover our stone oven"><span class="hotspot-ring"></span><span class="hotspot-center">+</span><span class="hotspot-tag">Baked with fire</span></button>
+          <button class="hotspot" data-product="croissant" data-from=".79" data-to="1" style="--x:62%;--y:55%" aria-label="Discover butter croissant"><span class="hotspot-ring"></span><span class="hotspot-center">+</span><span class="hotspot-tag">Butter croissant</span></button>
+          <button class="hotspot" data-product="sourdough" data-from=".82" data-to="1" style="--x:79%;--y:28%" aria-label="Discover country sourdough"><span class="hotspot-ring"></span><span class="hotspot-center">+</span><span class="hotspot-tag">Country sourdough</span></button>
+          <button class="hotspot" data-product="chocolate" data-from=".85" data-to="1" style="--x:80%;--y:72%" aria-label="Discover pain au chocolat"><span class="hotspot-ring"></span><span class="hotspot-center">+</span><span class="hotspot-tag">Pain au chocolat</span></button>
+        </div>
+
+        <div class="stage-bottom">
+          <div class="scroll-instruction" id="scrollInstruction"><span class="mouse-symbol" aria-hidden="true"><span></span></span><span>Scroll to discover</span></div>
+          <div class="timeline" aria-label="Story chapters">
+            <button class="timeline-point selected" data-target="0" type="button" aria-label="Go to introduction"><span class="timeline-name">INTRO</span><span class="timeline-track"><span></span></span></button>
+            <button class="timeline-point" data-target=".28" type="button" aria-label="Go to the dough scene"><span class="timeline-name">CRAFT</span><span class="timeline-track"><span></span></span></button>
+            <button class="timeline-point" data-target=".56" type="button" aria-label="Go to the oven scene"><span class="timeline-name">FIRE</span><span class="timeline-track"><span></span></span></button>
+            <button class="timeline-point" data-target=".84" type="button" aria-label="Go to the bakery products"><span class="timeline-name">REVEAL</span><span class="timeline-track"><span></span></span></button>
+          </div>
+          <div class="scroll-percent"><span id="scrollPercent">00</span><small>%</small></div>
+        </div>
+        <div class="edge-word" aria-hidden="true">THE ART OF BAKING</div>
+      </div>
+    </section>
+
+    <section class="collection" id="collection">
+      <div class="collection-intro">
+        <p class="section-kicker">THE GOOD PART</p>
+        <div class="collection-topline"><h2>Out of the oven.<br><em>Into your hands.</em></h2><p>Small batches. Beautiful ingredients. Baked with care every single morning. Discover our signature favourites below.</p></div>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+      <p class="collection-note">Concept bakery · Illustrative products and prices · Shopping interactions are a demo</p>
+    </section>
+    <section class="about" id="about"><div class="about-decoration" aria-hidden="true">F<span>&</span>F</div><div><p class="section-kicker">AN UNHURRIED PHILOSOPHY</p><h2>Some things<br>are worth <em>waiting for.</em></h2><p>Slow fermentation, careful hands and the kind of warmth you can smell from down the street. Flour & Fire is a concept bakery — a little tribute to the magic of making food from scratch.</p><a href="#journey" class="about-link">Experience the story again <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <footer class="footer"><span>FLOUR <i>&</i> FIRE</span><span>CRAFTED WITH PATIENCE · EST. IN IMAGINATION</span><span>© 2026 CONCEPT EXPERIENCE</span></footer>
+
+  <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+  <aside class="product-panel" id="productPanel" aria-modal="true" role="dialog" aria-labelledby="panelTitle" hidden>
+    <button class="panel-close" id="closePanel" type="button" aria-label="Close product details">×</button>
+    <div class="panel-overline" id="panelOverline">OUR SIGNATURE</div>
+    <div class="panel-image" id="panelImage"><span id="panelImageFallback" aria-hidden="true">✦</span></div>
+    <div class="panel-content"><p class="panel-number" id="panelNumber">01 / SIGNATURE BAKES</p><h3 id="panelTitle">Butter croissant</h3><p class="panel-description" id="panelDescription"></p><div class="panel-footer"><span class="panel-price" id="panelPrice">€3.80</span><button class="primary-button" id="addPanelToBag" type="button">Add to basket <span aria-hidden="true">↗</span></button></div></div>
+  </aside>
+  <aside class="basket" id="basket" aria-modal="true" role="dialog" aria-labelledby="basketHeading" hidden>
+    <div class="basket-heading"><div><p class="section-kicker">YOUR SELECTION</p><h2 id="basketHeading">The basket.</h2></div><button type="button" id="closeBag" class="panel-close" aria-label="Close basket">×</button></div>
+    <div class="basket-items" id="basketItems"></div>
+    <div class="basket-end"><div class="basket-total"><span>Subtotal</span><strong id="basketTotal">€0.00</strong></div><button class="primary-button full" id="copyOrder" type="button">Copy order summary <span aria-hidden="true">↗</span></button><p>Prototype only. No checkout, payment or real orders.</p></div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
